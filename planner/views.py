@@ -173,6 +173,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Goal
 
+import environ
+env=environ.Env()
+environ.Env.read_env()
+
 
 @api_view(['POST'])
 def ai_generate_plan(request):
@@ -213,7 +217,7 @@ def ai_generate_plan(request):
 
     # Get API key (you can store directly or use environment variable)
     # api_key = os.getenv("GEMINI_API_KEY")
-    api_key = "AIzaSyBE1AEfKzfUbWZwBVvLbhH3uPaQxb_SyYI"
+    api_key = env("GEMINI_API_KEY")
 
     if not api_key:
         return Response({"detail": "GEMINI_API_KEY not set in server environment"}, status=500)
