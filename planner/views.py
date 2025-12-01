@@ -178,70 +178,130 @@ env=environ.Env()
 environ.Env.read_env()
 
 
-@api_view(['POST'])
-def ai_generate_plan(request):
+# @api_view(['POST'])
+# def ai_generate_plan(request):
+#     """
+#     AI-powered study plan generator using Google Gemini (google-genai SDK).
+#     User sends: goal_id, days
+#     """
+
+#     goal_id = request.data.get("goal_id")
+#     days = request.data.get("days")
+
+#     if not goal_id or not days:
+#         return Response({"detail": "goal_id and days are required"}, status=400)
+
+#     # Fetch the goal
+#     try:
+#         goal = Goal.objects.get(id=goal_id)
+#     except Goal.DoesNotExist:
+#         return Response({"detail": "Goal not found"}, status=404)
+
+#     # Get title and topics from DB
+#     title = goal.title
+#     user_topic = goal.description
+
+#     # Build the prompt
+#     prompt = f"""
+#     Generate a {days}-day study plan for learning {title}.
+#     Main focus topic: {user_topic}.
+
+#     Only output day-wise plan like:
+#     Day 1: topic
+#     Day 2: topic
+#     ...
+#     Day {days}: final task.
+
+#     No paragraphs or explanations. Just the plan.
+#     """
+
+#     # Get API key (you can store directly or use environment variable)
+#     # api_key = os.getenv("GEMINI_API_KEY")
+#     api_key = env("GEMINI_API_KEY")
+
+#     if not api_key:
+#         return Response({"detail": "GEMINI_API_KEY not set in server environment"}, status=500)
+
+#     try:
+#         # Initialize Gemini client
+#         client = genai.Client(api_key=api_key)
+
+#         # Generate content using your stable model
+#         result = client.models.generate_content(
+#             model="gemini-2.5-flash",
+#             contents=prompt,
+#         )
+
+#         # Extract result text
+#         ai_text = result.text
+
+#         return Response({"plan": ai_text})
+
+#     except APIError as e:
+#         return Response({"detail": f"Gemini API error: {e}"}, status=500)
+
+#     except Exception as e:
+#         return Response({"detail": f"Unexpected error: {str(e)}"}, status=500)
+
+
+
+@csrf_exempt
+def ai_generate_plan(request, goal_id):
     """
-    AI-powered study plan generator using Google Gemini (google-genai SDK).
-    User sends: goal_id, days
+    Generates a study plan automatically using goal_id.
+    No need to send days/title/topics from frontend.
     """
 
-    goal_id = request.data.get("goal_id")
-    days = request.data.get("days")
+    if request.method != "POST":
+        return JsonResponse({"error": "Only POST allowed"}, status=405)
 
-    if not goal_id or not days:
-        return Response({"detail": "goal_id and days are required"}, status=400)
-
-    # Fetch the goal
+    # Validate goal
     try:
         goal = Goal.objects.get(id=goal_id)
     except Goal.DoesNotExist:
-        return Response({"detail": "Goal not found"}, status=404)
+        return JsonResponse({"error": "Goal not found"}, status=404)
 
-    # Get title and topics from DB
+    # Extract stored goal data
     title = goal.title
-    user_topic = goal.description
+    topics = goal.topics
+    days = goal.days or 5   # default fallback
 
-    # Build the prompt
+    # GEMINI API KEY
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        return JsonResponse({"error": "Gemini API key missing"}, status=500)
+
+    client = genai.Client(api_key=api_key)
+
+    # AI Prompt
     prompt = f"""
-    Generate a {days}-day study plan for learning {title}.
-    Main focus topic: {user_topic}.
+    Create a {days}-day structured study plan.
 
-    Only output day-wise plan like:
-    Day 1: topic
-    Day 2: topic
+    Title: {title}
+    Topics: {topics}
+
+    Format exactly like this:
+
+    Day 1: Topic
+    Day 2: Topic
     ...
-    Day {days}: final task.
+    Day {days}: Final revision or project
 
-    No paragraphs or explanations. Just the plan.
+    Do NOT give extra explanation.
     """
 
-    # Get API key (you can store directly or use environment variable)
-    # api_key = os.getenv("GEMINI_API_KEY")
-    api_key = env("GEMINI_API_KEY")
-
-    if not api_key:
-        return Response({"detail": "GEMINI_API_KEY not set in server environment"}, status=500)
-
     try:
-        # Initialize Gemini client
-        client = genai.Client(api_key=api_key)
-
-        # Generate content using your stable model
-        result = client.models.generate_content(
+        response = client.models.generate_content(
             model="gemini-2.5-flash",
-            contents=prompt,
+            contents=prompt
         )
 
-        # Extract result text
-        ai_text = result.text
-
-        return Response({"plan": ai_text})
-
-    except APIError as e:
-        return Response({"detail": f"Gemini API error: {e}"}, status=500)
+        plan_text = response.text.strip()
+        return JsonResponse({"plan": plan_text}, status=200)
 
     except Exception as e:
-        return Response({"detail": f"Unexpected error: {str(e)}"}, status=500)
+        return JsonResponse({"error": str(e)}, status=500)
+
 
 
 #----------------------------------------------------------------#

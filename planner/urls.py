@@ -12,6 +12,8 @@ urlpatterns = [
     # Goals
     path('goals/', GoalListCreateView.as_view(), name='goals'),
     path('goals/<int:pk>/', GoalDetailView.as_view(), name='goal-detail'),
+    path("ai/generate-plan/<int:goal_id>/", ai_generate_plan),
+
 
     # Daily Plans
     path('daily-plans/', DailyPlanListCreateView.as_view(), name='daily-plans'),
