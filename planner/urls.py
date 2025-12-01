@@ -6,6 +6,7 @@ from .views import (
     DailyPlanDetailView,
     ai_generate_plan
 )
+from .import views
 
 urlpatterns = [
     # Goals
@@ -18,4 +19,6 @@ urlpatterns = [
 
     # AI Generator
     path('ai/generate-plan/', ai_generate_plan, name='ai-generate-plan'),
+    path('register/', views.register_user, name='register'),
+    path('login/', views.login_user, name='login'),
 ]

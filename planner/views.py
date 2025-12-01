@@ -165,50 +165,152 @@ class DailyPlanDetailView(APIView):
 # ---------------------------------------------------------
 # AI PLAN GENERATOR
 # ---------------------------------------------------------
+import os
+from google import genai
+from google.genai.errors import APIError
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Goal
+
 
 @api_view(['POST'])
 def ai_generate_plan(request):
-    """AI auto-distributes topics over given days."""
+    """
+    AI-powered study plan generator using Google Gemini (google-genai SDK).
+    User sends: goal_id, days
+    """
 
-    topics_raw = request.data.get('topics')
-    days = int(request.data.get('days', 0))
-    hours_per_day = int(request.data.get('hours_per_day', 2))
-    start_date_str = request.data.get('start_date')
+    goal_id = request.data.get("goal_id")
+    days = request.data.get("days")
 
-    if not topics_raw:
-        return Response({"detail": "'topics' is required"}, status=400)
+    if not goal_id or not days:
+        return Response({"detail": "goal_id and days are required"}, status=400)
 
-    # Accept comma string or list
-    if isinstance(topics_raw, str):
-        topics = topics_raw.split(',')
-    elif isinstance(topics_raw, list):
-        topics = topics_raw
-    else:
-        return Response({"detail": "'topics' must be string or list"}, status=400)
+    # Fetch the goal
+    try:
+        goal = Goal.objects.get(id=goal_id)
+    except Goal.DoesNotExist:
+        return Response({"detail": "Goal not found"}, status=404)
 
-    if days <= 0:
-        return Response({"detail": "'days' must be positive"}, status=400)
+    # Get title and topics from DB
+    title = goal.title
+    user_topic = goal.description
 
-    schedule = generate_schedule(topics, days, hours_per_day)
+    # Build the prompt
+    prompt = f"""
+    Generate a {days}-day study plan for learning {title}.
+    Main focus topic: {user_topic}.
 
-    # date handling
-    if start_date_str:
+    Only output day-wise plan like:
+    Day 1: topic
+    Day 2: topic
+    ...
+    Day {days}: final task.
+
+    No paragraphs or explanations. Just the plan.
+    """
+
+    # Get API key (you can store directly or use environment variable)
+    # api_key = os.getenv("GEMINI_API_KEY")
+    api_key = "AIzaSyBE1AEfKzfUbWZwBVvLbhH3uPaQxb_SyYI"
+
+    if not api_key:
+        return Response({"detail": "GEMINI_API_KEY not set in server environment"}, status=500)
+
+    try:
+        # Initialize Gemini client
+        client = genai.Client(api_key=api_key)
+
+        # Generate content using your stable model
+        result = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt,
+        )
+
+        # Extract result text
+        ai_text = result.text
+
+        return Response({"plan": ai_text})
+
+    except APIError as e:
+        return Response({"detail": f"Gemini API error: {e}"}, status=500)
+
+    except Exception as e:
+        return Response({"detail": f"Unexpected error: {str(e)}"}, status=500)
+
+
+#----------------------------------------------------------------#
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import UserRegistration
+
+
+@csrf_exempt
+def register_user(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "Only POST allowed"}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        name = data.get("name")
+        email = data.get("email")
+        password = data.get("password")
+
+        if not name or not email or not password:
+            return JsonResponse({"error": "All fields are required"}, status=400)
+
+        # Check if email exists
+        if UserRegistration.objects.filter(email=email).exists():
+            return JsonResponse({"error": "Email already registered"}, status=400)
+
+        # Create user
+        user = UserRegistration.objects.create(
+            name=name,
+            email=email,
+            password=password
+        )
+
+        return JsonResponse({
+            "message": "User registered successfully",
+            "user_id": user.id
+        }, status=201)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+#---------------------------------------------------------------------------#
+@csrf_exempt
+def login_user(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "Only POST allowed"}, status=405)
+
+    try:
+        data = json.loads(request.body)
+        email = data.get("email")
+        password = data.get("password")
+
+        if not email or not password:
+            return JsonResponse({"error": "Email and password are required"}, status=400)
+
+        # Check user
         try:
-            y, m, d = map(int, start_date_str.split('-'))
-            start = date(y, m, d)
-        except:
-            return Response({"detail": "Invalid date format YYYY-MM-DD"}, status=400)
-    else:
-        start = date.today()
+            user = UserRegistration.objects.get(email=email)
+        except UserRegistration.DoesNotExist:
+            return JsonResponse({"error": "Invalid email or password"}, status=400)
 
-    result = []
-    for entry in schedule:
-        actual = date.fromordinal(start.toordinal() + entry["day"] - 1)
-        result.append({
-            "day": entry["day"],
-            "date": actual.isoformat(),
-            "topics": entry["topics"],
-            "planned_hours": entry["planned_hours"],
-        })
+        # Compare raw password (NO HASHING)
+        if user.password != password:
+            return JsonResponse({"error": "Invalid email or password"}, status=400)
 
-    return Response(result)
+        # Successful login
+        return JsonResponse({
+            "message": "Login successful",
+            "user_id": user.id,
+            "name": user.name
+        }, status=200)
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)

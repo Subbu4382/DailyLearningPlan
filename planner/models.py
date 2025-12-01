@@ -64,3 +64,23 @@ class DailyPlan(models.Model):
 
     def __str__(self) -> str:
         return f"Plan for {self.date} ({'Done' if self.is_completed else 'Pending'})"
+
+
+
+from django.contrib.auth.hashers import make_password
+
+class UserRegistration(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=255)   # hashed password stored
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    # Automatically hash password before saving
+    # def save(self, *args, **kwargs):
+    #     if not self.pk:  # only hash when creating user
+    #         self.password = make_password(self.password)
+    #     super().save(*args, **kwargs)
+
+    # def __str__(self):
+    #     return self.email
