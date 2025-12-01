@@ -286,6 +286,9 @@ def register_user(request):
 
 
 #---------------------------------------------------------------------------#
+import jwt
+import datetime
+SECRET_KEY = 'django-insecure-change-this-key-for-production'
 @csrf_exempt
 def login_user(request):
     if request.method != "POST":
@@ -309,12 +312,35 @@ def login_user(request):
         if user.password != password:
             return JsonResponse({"error": "Invalid email or password"}, status=400)
 
-        # Successful login
-        return JsonResponse({
+        # Generate JWT token
+        payload = {
+            "user_id": user.id,
+            "email": user.email,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=30),  # Token expires in 3 days
+            "iat": datetime.datetime.utcnow()
+        }
+
+        token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+
+        # Create response
+        response = JsonResponse({
             "message": "Login successful",
             "user_id": user.id,
-            "name": user.name
+            "name": user.name,
+            "token": token  # also return token (optional)
         }, status=200)
+
+        # Set token in HttpOnly cookie
+        response.set_cookie(
+            key="auth_token",
+            value=token,
+            httponly=True,
+            secure=False,   # Set True for HTTPS
+            samesite="Lax",
+            max_age=1 * 60 * 60  # 3 days
+        )
+
+        return response
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
