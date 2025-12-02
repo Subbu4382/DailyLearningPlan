@@ -347,13 +347,13 @@ def login_user(request):
 
         # Set token in HttpOnly cookie
         response.set_cookie(
-            key="auth_token",
-            value=token,
-            httponly=True,
-            secure=False,   # Set True for HTTPS
-            samesite=None,
-            max_age=1 * 60 * 60  # 3 days
-        )
+        key="auth_token",
+        value=token,
+        httponly=True,
+        secure=True,      # MUST be True for HTTPS
+        samesite="None",  # MUST be None for cross-domain
+        max_age=3 * 60 * 60
+)
 
         return response
 
