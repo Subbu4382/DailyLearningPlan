@@ -112,7 +112,7 @@ class Goal(models.Model):
         on_delete=models.CASCADE,
         related_name="goals"
     )
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200,unique=True)
     description = models.TextField(blank=True)
     deadline = models.DateField()
     total_hours = models.PositiveIntegerField(default=0)

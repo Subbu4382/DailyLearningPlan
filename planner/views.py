@@ -352,7 +352,7 @@ def login_user(request):
         httponly=True,
         secure=True,      # MUST be True for HTTPS
         samesite="None",  # MUST be None for cross-domain
-        max_age=3 * 60 * 60
+        max_age=3*24 * 60 * 60
 )
 
         return response
