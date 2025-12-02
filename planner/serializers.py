@@ -11,6 +11,7 @@ class GoalSerializer(serializers.ModelSerializer):
         model = Goal
         fields = [
             'id',
+            'user',
             'title',
             'description',
             'deadline',

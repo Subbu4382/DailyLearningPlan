@@ -107,7 +107,11 @@ class UserRegistration(models.Model):
 
 
 class Goal(models.Model):
-    user = models.ForeignKey(UserRegistration, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        UserRegistration, 
+        on_delete=models.CASCADE,
+        related_name="goals"
+    )
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     deadline = models.DateField()
@@ -125,7 +129,11 @@ class Goal(models.Model):
 
 
 class DailyPlan(models.Model):
-    user = models.ForeignKey(UserRegistration, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        UserRegistration,
+        on_delete=models.CASCADE,
+        related_name="daily_plans"
+    )
     goal = models.ForeignKey(
         Goal,
         on_delete=models.CASCADE,

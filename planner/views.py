@@ -18,21 +18,30 @@ from .ai_service import generate_schedule
 # ---------------------------------------------------------
 
 class GoalListCreateView(APIView):
-    """GET -> List all goals
-       POST -> Create new goal
-    """
-
     def get(self, request):
-        goals = Goal.objects.all().order_by('-created_at')
+        user = get_logged_in_user(request)
+        if not user:
+            return Response({"detail": "Unauthorized"}, status=401)
+
+        goals = Goal.objects.filter(user=user).order_by('-created_at')
         serializer = GoalSerializer(goals, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = GoalSerializer(data=request.data)
+        user = get_logged_in_user(request)
+        if not user:
+            return Response({"detail": "Unauthorized"}, status=401)
+
+        data = request.data.copy()
+        data["user"] = user.id
+
+        serializer = GoalSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
+        
         return Response(serializer.errors, status=400)
+
 
 
 class GoalDetailView(APIView):
@@ -93,26 +102,28 @@ class DailyPlanListCreateView(APIView):
     """
 
     def get(self, request):
-        qs = DailyPlan.objects.all().order_by('date')
+      user = get_logged_in_user(request)
+      if not user:
+          return Response({"detail": "Unauthorized"}, status=401)
 
-        # Optional date filters
-        start = request.query_params.get('from')
-        end = request.query_params.get('to')
-
-        if start:
-            qs = qs.filter(date__gte=start)
-        if end:
-            qs = qs.filter(date__lte=end)
-
-        serializer = DailyPlanSerializer(qs, many=True)
-        return Response(serializer.data)
+      plans = DailyPlan.objects.filter(user=user).order_by("date")
+      serializer = DailyPlanSerializer(plans, many=True)
+      return Response(serializer.data)
 
     def post(self, request):
-        serializer = DailyPlanSerializer(data=request.data)
+        user = get_logged_in_user(request)
+        if not user:
+            return Response({"detail": "Unauthorized"}, status=401)
+
+        data = request.data.copy()
+        data["user"] = user.id
+
+        serializer = DailyPlanSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
+
 
 
 class DailyPlanDetailView(APIView):
@@ -185,7 +196,9 @@ def ai_generate_plan(request):
     AI-powered study plan generator using Google Gemini (google-genai SDK).
     User sends: goal_id, days
     """
-
+    user = get_logged_in_user(request)
+    if not user:
+       return Response({"detail": "Unauthorized"}, status=401)
     goal_id = request.data.get("goal_id")
     days = request.data.get("days")
 
@@ -194,7 +207,7 @@ def ai_generate_plan(request):
 
     # Fetch the goal
     try:
-        goal = Goal.objects.get(id=goal_id)
+       goal = Goal.objects.get(id=goal_id, user=user)
     except Goal.DoesNotExist:
         return Response({"detail": "Goal not found"}, status=404)
 
@@ -243,65 +256,6 @@ def ai_generate_plan(request):
 
     except Exception as e:
         return Response({"detail": f"Unexpected error: {str(e)}"}, status=500)
-
-
-
-# @csrf_exempt
-# def ai_generate_plan(request, goal_id):
-#     """
-#     Generates a study plan automatically using goal_id.
-#     No need to send days/title/topics from frontend.
-#     """
-
-#     if request.method != "POST":
-#         return JsonResponse({"error": "Only POST allowed"}, status=405)
-
-#     # Validate goal
-#     try:
-#         goal = Goal.objects.get(id=goal_id)
-#     except Goal.DoesNotExist:
-#         return JsonResponse({"error": "Goal not found"}, status=404)
-
-#     # Extract stored goal data
-#     title = goal.title
-#     topics = goal.topics
-#     days = goal.days or 5   # default fallback
-
-#     # GEMINI API KEY
-#     api_key = os.getenv("GEMINI_API_KEY")
-#     if not api_key:
-#         return JsonResponse({"error": "Gemini API key missing"}, status=500)
-
-#     client = genai.Client(api_key=api_key)
-
-#     # AI Prompt
-#     prompt = f"""
-#     Create a {days}-day structured study plan.
-
-#     Title: {title}
-#     Topics: {topics}
-
-#     Format exactly like this:
-
-#     Day 1: Topic
-#     Day 2: Topic
-#     ...
-#     Day {days}: Final revision or project
-
-#     Do NOT give extra explanation.
-#     """
-
-#     try:
-#         response = client.models.generate_content(
-#             model="gemini-2.5-flash",
-#             contents=prompt
-#         )
-
-#         plan_text = response.text.strip()
-#         return JsonResponse({"plan": plan_text}, status=200)
-
-#     except Exception as e:
-#         return JsonResponse({"error": str(e)}, status=500)
 
 
 
@@ -405,3 +359,19 @@ def login_user(request):
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+
+# 222
+import jwt
+from django.http import JsonResponse
+
+def get_logged_in_user(request):
+    token = request.COOKIES.get("auth_token")
+    if not token:
+        return None
+    
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        return UserRegistration.objects.get(id=payload["user_id"])
+    except:
+        return None
