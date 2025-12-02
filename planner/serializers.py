@@ -37,6 +37,7 @@ class DailyPlanSerializer(serializers.ModelSerializer):
         model = DailyPlan
         fields = [
             'id',
+            'user',
             'goal',
             'goal_title',
             'date',
