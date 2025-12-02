@@ -216,18 +216,38 @@ def ai_generate_plan(request):
     user_topic = goal.description
 
     # Build the prompt
+    # prompt = f"""
+    # Generate a {days}-day study plan for learning {title}.
+    # Main focus topic: {user_topic}.
+
+    # Only output day-wise plan like:
+    # Day 1: topic
+    # Day 2: topic
+    # ...
+    # Day {days}: final task.
+
+    # No paragraphs or explanations. Just the plan.
+    # """
+
     prompt = f"""
-    Generate a {days}-day study plan for learning {title}.
-    Main focus topic: {user_topic}.
+Generate a study plan for the goal: {title}.
+Main topic: {user_topic}.
 
-    Only output day-wise plan like:
-    Day 1: topic
-    Day 2: topic
-    ...
-    Day {days}: final task.
+Create exactly {days} day(s) of plan.
 
-    No paragraphs or explanations. Just the plan.
-    """
+Output format:
+Day 1: topic
+Day 2: topic
+...
+Day {days}: topic
+
+Rules:
+- If {days} = 1, output ONLY: "Day 1: topic"
+- Do NOT repeat the same day multiple times
+- Do NOT include explanations or paragraphs
+- Output only the plan
+"""
+
 
     # Get API key (you can store directly or use environment variable)
     # api_key = os.getenv("GEMINI_API_KEY")
