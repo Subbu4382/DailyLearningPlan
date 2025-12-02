@@ -351,7 +351,7 @@ def login_user(request):
             value=token,
             httponly=True,
             secure=False,   # Set True for HTTPS
-            samesite="Lax",
+            samesite=None,
             max_age=1 * 60 * 60  # 3 days
         )
 
