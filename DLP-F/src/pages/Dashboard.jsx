@@ -7,7 +7,7 @@ import "./Dashboard.css";
 // const API_BASE = "https://dailylearningplan.onrender.com/api";
 // export const API_BASE = "http://localhost:8000/api";
 // export const API_BASE = "/api";
-export const API_BASE = "https://your-backend.onrender.com/api";
+export const API_BASE = "https://dailylearningplan.onrender.com/api";
 
 
 export default function Dashboard() {
