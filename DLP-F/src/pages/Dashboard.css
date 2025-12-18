@@ -240,13 +240,47 @@
 }
 
 /* ====================================================
-   Today's Plan
+   Today's Plan - WITH SCROLLABLE CONTENT
    ==================================================== */
+
+.today-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.today-list-container {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px;
+  padding-right: 12px;
+  margin-bottom: 16px;
+}
+
+/* Custom scrollbar for Today's Plan */
+.today-list-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.today-list-container::-webkit-scrollbar-track {
+  background: rgba(229, 239, 255, 0.5);
+  border-radius: 10px;
+}
+
+.today-list-container::-webkit-scrollbar-thumb {
+  background: rgba(74, 95, 193, 0.4);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.today-list-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 95, 193, 0.6);
+}
 
 .today-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
 .today-item {
@@ -257,6 +291,7 @@
   border: 1px solid rgba(200, 210, 230, 0.7);
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
   transition: 0.25s ease;
+  flex-shrink: 0;
 }
 
 .today-item:hover {
@@ -368,11 +403,75 @@
   margin-bottom: 14px;
 }
 
+/* Show More/Less Button for Today */
+.today-show-more {
+  align-self: flex-end;
+  margin-top: 10px;
+}
+
+.today-show-btn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #4a5fc1, #2b8cd6);
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.today-show-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(74, 95, 193, 0.3);
+}
+
+.today-show-btn:active {
+  transform: translateY(0);
+}
+
 
 
 /* ====================================================
-   Goals Section
+   Goals Section - WITH SCROLLABLE CONTENT
    ==================================================== */
+
+.goals-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.goals-list-container {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px;
+  padding-right: 12px;
+  margin-bottom: 16px;
+}
+
+/* Custom scrollbar for Goals */
+.goals-list-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.goals-list-container::-webkit-scrollbar-track {
+  background: rgba(241, 232, 255, 0.5);
+  border-radius: 10px;
+}
+
+.goals-list-container::-webkit-scrollbar-thumb {
+  background: rgba(147, 51, 234, 0.4);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.goals-list-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(147, 51, 234, 0.6);
+}
 
 .goal-item {
   border-radius: 20px;
@@ -381,6 +480,7 @@
   border: 1px solid rgba(200, 210, 230, 0.7);
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
   transition: 0.25s ease;
+  flex-shrink: 0;
 }
 
 .goal-item:hover {
@@ -407,26 +507,31 @@
   background: rgba(255, 191, 146, 0.45);
 }
 
-.collapse-btn {
-  padding: 8px 16px;
+/* Modified collapse button - now as show more/less */
+.goals-show-more {
+  align-self: flex-end;
   margin-top: 10px;
-  border-radius: 999px;
-  border: 2px solid #18ee9c;
-  background: rgba(255, 255, 255, 0.7);
-  color: #374151;
+}
+
+.collapse-btn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #9333ea, #7c3aed);
+  color: white;
+  border: none;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: 0.25s ease;
-  box-shadow: 0 4px 10px rgba(156, 163, 175, 0.25);
-  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(147, 51, 234, 0.25);
 }
 
 .collapse-btn:hover {
-  background: #f0f4ff;
-  border-color: #7fa9ff;
   transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(148, 163, 184, 0.35);
+  box-shadow: 0 8px 25px rgba(147, 51, 234, 0.35);
 }
 
 .collapse-btn:active {
@@ -646,7 +751,22 @@
   .progress-value {
     font-size: 1.15rem;
   }
+
+  /* Adjust scrollable container height on mobile */
+  .today-list-container,
+  .goals-list-container {
+    max-height: 350px;
+  }
 }
+
+/* Adjust scrollable container height on tablets */
+@media (min-width: 901px) and (max-width: 1200px) {
+  .today-list-container,
+  .goals-list-container {
+    max-height: 350px;
+  }
+}
+
 .success-btn {
   background: linear-gradient(135deg, #22c55e, #16a34a);
   color: white;
@@ -761,5 +881,119 @@
   .ai-goal-selector .primary-btn {
     width: 100%;
     text-align: center;
+  }
+}
+
+/* ====================================================
+   SCROLLABLE CARD STATES
+   ==================================================== */
+
+/* Collapsed state (showing limited items) */
+.today-list-container.collapsed,
+.goals-list-container.collapsed {
+  max-height: 250px; /* Show only first 3-4 items */
+  overflow-y: auto;
+}
+
+/* Expanded state (showing all items) */
+.today-list-container.expanded,
+.goals-list-container.expanded {
+  max-height: 500px; /* Increased height for more items */
+}
+
+/* Smooth transition for expand/collapse */
+.today-list-container,
+.goals-list-container {
+  transition: max-height 0.4s ease-out;
+}
+
+/* Show button icon animation */
+.today-show-btn .btn-icon,
+.collapse-btn .btn-icon {
+  transition: transform 0.3s ease;
+  font-size: 0.8em;
+}
+
+.today-show-btn.expanded .btn-icon,
+.collapse-btn.expanded .btn-icon {
+  transform: rotate(180deg);
+}
+
+/* Empty state styling */
+.today-list:empty::before,
+.goals-list:empty::before {
+  content: "No items to display";
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  border: 2px dashed rgba(200, 210, 230, 0.7);
+}
+
+/* Loading state */
+.today-list.loading::before,
+.goals-list.loading::before {
+  content: "";
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  background-image: linear-gradient(
+    90deg,
+    rgba(200, 210, 230, 0.1) 25%,
+    rgba(200, 210, 230, 0.3) 50%,
+    rgba(200, 210, 230, 0.1) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Card footer styling for show more button */
+.today-card-footer,
+.goals-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 12px;
+  border-top: 1px solid rgba(200, 210, 230, 0.4);
+  margin-top: 8px;
+}
+
+/* Hide scrollbar when not needed */
+.today-list-container:not(.scrollable),
+.goals-list-container:not(.scrollable) {
+  overflow-y: hidden;
+}
+
+/* Active item highlight */
+.today-item.active,
+.goal-item.active {
+  border-color: #4a5fc1;
+  background: rgba(229, 239, 255, 0.9);
+  box-shadow: 0 8px 20px rgba(74, 95, 193, 0.2);
+}
+
+/* Responsive adjustments for scrollable containers */
+@media (max-width: 768px) {
+  .today-list-container,
+  .goals-list-container {
+    max-height: 300px;
+  }
+  
+  .today-list-container.collapsed,
+  .goals-list-container.collapsed {
+    max-height: 200px;
+  }
+  
+  .today-list-container.expanded,
+  .goals-list-container.expanded {
+    max-height: 400px;
   }
 }
