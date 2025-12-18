@@ -445,8 +445,7 @@ def login_user(request):
         httponly=True,
         secure=True,      # MUST be True for HTTPS
         samesite=None,
-        path="/",
-        domain="localhost",  # MUST be None for cross-domain
+        path="/", 
         max_age=3*24 * 60 * 60
 )
 
