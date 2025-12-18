@@ -444,8 +444,8 @@ def login_user(request):
         value=token,
         httponly=True,
         secure=True,      # MUST be True for HTTPS
-        samesite=None,
-        path="/", 
+        samesite="None",
+        # path="/", 
         max_age=3*24 * 60 * 60
 )
 

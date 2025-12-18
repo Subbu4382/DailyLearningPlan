@@ -132,18 +132,18 @@ REST_FRAMEWORK = {
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "https://dailylearningplanner.vercel.app",
-    "https://deeplearningplanner.vercel.app",
-      "http://localhost:5173",
-      "http://127.0.0.1:5173",
+    # "https://dailylearningplanner.vercel.app",
+    # "https://deeplearningplanner.vercel.app",
+    #   "http://localhost:5173",
+    #   "http://127.0.0.1:5173",
        "https://daily-learning-plan.vercel.app"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://dailylearningplanner.vercel.app",
-    "https://deeplearningplanner.vercel.app",
-      "http://localhost:5173",
-      "http://127.0.0.1:5173",
+    # "https://dailylearningplanner.vercel.app",
+    # "https://deeplearningplanner.vercel.app",
+    #   "http://localhost:5173",
+    #   "http://127.0.0.1:5173",
      "https://daily-learning-plan.vercel.app"
 ]
 
