@@ -154,7 +154,9 @@ import "./Register.css";
 
 // const API_BASE = "https://dailylearningplan.onrender.com/api";
 // const API_BASE="http://127.0.0.1:8000/api"
-export const API_BASE = "/api";
+// export const API_BASE = "/api";
+export const API_BASE = "https://your-backend.onrender.com/api";
+
 
 
 export default function Register() {

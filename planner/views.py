@@ -443,8 +443,8 @@ def login_user(request):
         key="auth_token",
         value=token,
         httponly=True,
-        secure=False,      # MUST be True for HTTPS
-        samesite="Lax",
+        secure=True,      # MUST be True for HTTPS
+        samesite=None,
         path="/",
         domain="localhost",  # MUST be None for cross-domain
         max_age=3*24 * 60 * 60
