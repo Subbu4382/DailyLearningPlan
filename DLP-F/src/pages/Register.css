@@ -1,0 +1,152 @@
+/* src/pages/RegisterPage.css */
+
+.register-root {
+  min-height: 100vh;
+  background-color: #b5ead7; /* Mint Green */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  animation: fadeIn 0.3s ease;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  padding: 32px 28px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.register-header {
+  text-align: center;
+}
+
+.register-title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #374151;
+}
+
+.register-subtitle {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #aec6f7; /* Baby Blue */
+  box-shadow: 0 0 0 3px rgba(174, 198, 247, 0.45);
+  background: #ffffff;
+}
+
+.form-input.has-error {
+  border-color: #ef4444;
+}
+
+.error-text {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #b91c1c;
+}
+
+/* Button */
+.register-button {
+  margin-top: 4px;
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 14px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  background-color: #ffd3b4; /* Peach CTA */
+  color: #374151;
+  transition: 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.register-button:hover {
+  background-color: #ffc39a;
+  transform: translateY(-1px);
+}
+
+.register-button:active {
+  transform: translateY(0);
+}
+
+/* Footer */
+.register-footer {
+  text-align: center;
+}
+
+.helper-text {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.login-link {
+  color: #c3b1e1; /* Lavender */
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .register-card {
+    padding: 24px 20px;
+  }
+
+  .register-title {
+    font-size: 1.4rem;
+  }
+}

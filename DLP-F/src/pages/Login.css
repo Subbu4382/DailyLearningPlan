@@ -1,0 +1,177 @@
+/* src/pages/LoginPage.css */
+
+/* ---------- Layout & Background ---------- */
+.login-root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: #b5ead7; /* Mint Green background */
+  animation: fadeIn 0.3s ease;
+}
+
+/* Centered card-style layout */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px 28px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* subtle depth */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ---------- Header ---------- */
+.login-header {
+  text-align: center;
+}
+
+.login-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+  color: #374151;
+}
+
+.login-subtitle {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+/* ---------- Form ---------- */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* vertical stacking spacing */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+/* Input wrapper with icon */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Inputs */
+.form-input {
+  width: 100%;
+  padding: 10px 12px 10px 36px; /* room for icon */
+  font-size: 0.95rem;
+  border-radius: 12px; /* rounded corners 12–16px */
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #aec6f7; /* Baby Blue */
+  box-shadow: 0 0 0 3px rgba(174, 198, 247, 0.45);
+  background-color: #ffffff;
+}
+
+/* Error state */
+.form-input.has-error {
+  border-color: #ef4444;
+}
+
+.error-text {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #b91c1c;
+}
+
+/* ---------- Button ---------- */
+.login-button {
+  margin-top: 4px;
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  background-color: #ffd3b4; /* Peach for CTA */
+  color: #374151;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.1s ease, box-shadow 0.1s ease,
+    background-color 0.2s ease;
+}
+
+.login-button:hover {
+  background-color: #ffc39a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.login-button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- Footer ---------- */
+.login-footer {
+  text-align: center;
+  margin-top: 4px;
+}
+
+.helper-text {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.register-link {
+  color: #c3b1e1; /* Lavender accent */
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 24px 20px;
+  }
+
+  .login-title {
+    font-size: 1.4rem;
+  }
+}

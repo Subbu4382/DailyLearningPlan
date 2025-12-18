@@ -1,0 +1,765 @@
+/* ====================================================
+   PREMIUM THEME V2 – Glassmorphism + Pastel Gradient
+   ==================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+
+
+/* Root Background */
+.dash-root {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    #a3c8ff 0%,
+    #b7e9d4 50%,
+    #ffffff 100%
+  );
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+/* Main Container */
+.dash-container {
+  width: 100%;
+  max-width: 1380px;
+  border-radius: 30px;
+  padding: 48px 50px 60px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* ====================================================
+   Header – Large Name + Soft Animations
+   ==================================================== */
+
+.dash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.dash-greeting-label {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #6b7280;
+}
+
+.dash-greeting-title {
+  margin: 8px 0;
+  font-size: 3rem;
+  font-weight: 800;
+  text-transform: capitalize;
+  letter-spacing: -1px;
+}
+
+.dash-greeting-name {
+  background: linear-gradient(90deg, #4a5fc1, #2b8cd6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.emoji {
+  margin-left: 4px;
+  /* keep default emoji color */
+}
+
+.dash-greeting-subtitle {
+  margin-top: 8px;
+  font-size: 1.05rem;
+  color: #4b5563;
+}
+
+.pill-date {
+  background-color: #ffdfc8;
+  color: #4b5563;
+  padding: 4px 10px;      /* space inside */
+  border-radius: 999px;   /* fully rounded edges */
+  font-weight: 500;
+  display: inline-block;  /* ensures clean pill shape */
+}
+
+/* ====================================================
+   User Card – Premium Glass Chip
+   ==================================================== */
+
+.dash-user-card {
+  min-width: 280px;
+  padding: 20px 26px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.dash-avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  background: rgba(185, 236, 226, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.6rem;
+  color: #4663e5;
+}
+
+.dash-user-name {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.dash-user-email {
+  margin: 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* Logout Button */
+.dash-logout-btn {
+  border: none;
+  outline: none;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: #fff;
+  color: #ff4a4a;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  transition: 0.2s ease;
+}
+
+.dash-logout-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+/* ====================================================
+   Layout Grids
+   ==================================================== */
+
+.dash-main {
+  display: grid;
+  grid-template-columns: 2fr 1.3fr;
+  gap: 32px;
+}
+
+/* .dash-bottom {
+  display: grid;
+  grid-template-columns: 1.4fr 1.4fr;
+  gap: 32px;
+} */
+
+
+.dash-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.dash-bottom .dash-card {
+  width: 100%;
+}
+
+/* ====================================================
+   Premium Card Base
+   ==================================================== */
+
+.dash-card {
+  border-radius: 26px;
+  padding: 30px 32px 34px;
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  /* background-color: #2b8cd6; */
+}
+
+/* Special section colors */
+
+.dash-today {
+  background: linear-gradient(135deg, #e5efff, #ffffff);
+}
+
+.dash-goals {
+  background: linear-gradient(135deg, #f1e8ff, #ffffff);
+}
+
+.dash-progress {
+  background: linear-gradient(135deg, #dffced, #ffffff);
+}
+
+.dash-ai {
+  background: linear-gradient(135deg, #ffe8d5, #ffffff);
+}
+
+/* Card Header */
+.dash-card-header h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+/* Buttons */
+.ghost-btn {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  transition: 0.2s ease;
+}
+
+.ghost-btn:hover {
+  background: #f0f5ff;
+  border-color: #7fa9ff;
+  transform: translateY(-2px);
+}
+
+/* ====================================================
+   Today's Plan
+   ==================================================== */
+
+.today-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.today-item {
+  border-radius: 20px;
+  padding: 20px 22px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(200, 210, 230, 0.7);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+  transition: 0.25s ease;
+}
+
+.today-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.22);
+}
+
+/* Progress Bar */
+.today-progress-bar,
+.goal-progress,
+.progress-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(230, 232, 240, 0.8);
+  overflow: hidden;
+}
+
+.today-progress-fill,
+.goal-progress-fill,
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #22c997, #8ec5ff);
+}
+
+
+/* Blue button */
+.mark-btn {
+  background: #0d6efd;
+  color: white;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.mark-btn:hover {
+  background: #0b5ed7;
+}
+
+/* Green completed button */
+.completed-btn {
+  background: #198754;
+  color: white;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: default;
+  opacity: 0.9;
+}
+
+/* Align button to right inside plan card */
+.complete-btn-wrapper {
+  text-align: right;
+  margin-top: 8px;
+}
+
+
+/* TODAY CARD STRUCTURE */
+.today-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+/* Title + hours row */
+.today-title-row {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #222;
+}
+
+/* Hr styling */
+.today-hours {
+  color: #0d6efd;
+  font-weight: 500;
+}
+
+/* Progress row */
+.today-progress-row {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* Topic chips */
+.topic-chip {
+  display: inline-block;
+  background: #d4ebf2;
+  color: #049cca;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.99rem;
+  margin-right: 6px;
+  margin-top: 4px;
+  margin-bottom: 6px;
+  border: 1px solid #bfe3ff;
+}
+
+/* Add spacing between each Today card */
+.today-item {
+  padding: 16px;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 14px;
+}
+
+
+
+/* ====================================================
+   Goals Section
+   ==================================================== */
+
+.goal-item {
+  border-radius: 20px;
+  padding: 20px 22px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(200, 210, 230, 0.7);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+  transition: 0.25s ease;
+}
+
+.goal-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* Status pills */
+.status-pill {
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.status-in-progress {
+  background: rgba(158, 185, 255, 0.4);
+}
+
+.status-completed {
+  background: rgba(16, 185, 129, 0.25);
+}
+
+.status-not-started {
+  background: rgba(255, 191, 146, 0.45);
+}
+
+.collapse-btn {
+  padding: 8px 16px;
+  margin-top: 10px;
+  border-radius: 999px;
+  border: 2px solid #18ee9c;
+  background: rgba(255, 255, 255, 0.7);
+  color: #374151;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 4px 10px rgba(156, 163, 175, 0.25);
+  backdrop-filter: blur(6px);
+}
+
+.collapse-btn:hover {
+  background: #f0f4ff;
+  border-color: #7fa9ff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(148, 163, 184, 0.35);
+}
+
+.collapse-btn:active {
+  transform: translateY(0);
+}
+
+.goals-list .goal-item {
+  margin-bottom: 20px !important;
+  padding: 18px;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.05);
+}
+
+
+/* ====================================================
+   Weekly Progress
+   ==================================================== */
+
+/* .progress-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.progress-numbers {
+  display: flex;
+  gap: 86px;
+}
+
+.progress-numbers > div {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(181, 239, 228, 0.85);
+  border: 1px solid rgba(209, 213, 219, 0.9);
+  box-shadow: 0 6px 14px rgba(148, 163, 184, 0.25);
+}
+
+.progress-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.progress-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+} */
+
+.progress-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Flex row on large screens */
+.progress-numbers {
+  display: flex;
+  gap: 40px;
+}
+
+/* Individual cards */
+.progress-numbers > div {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(181, 239, 228, 0.85);
+  border: 1px solid rgba(209, 213, 219, 0.9);
+  box-shadow: 0 6px 14px rgba(148, 163, 184, 0.25);
+  text-align: center;
+}
+
+/* Labels & values */
+.progress-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.progress-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* ====================================================
+   AI Suggestions
+   ==================================================== */
+
+.ai-plan-list {
+  display: grid;
+  gap: 20px;
+}
+
+.ai-day-card {
+  padding: 16px 22px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(200, 210, 230, 0.75);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+  transition: 0.25s ease;
+}
+
+.ai-day-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.18);
+}
+
+/* Buttons */
+.primary-btn {
+  background: linear-gradient(135deg, #ffccab, #ffb78a);
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: 0.25s ease;
+  border: none;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  box-shadow: 0 6px 16px rgba(255, 170, 110, 0.5);
+}
+
+.primary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px rgba(255, 170, 110, 0.6);
+}
+
+
+.ghost-btn.subtle {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  color: #595656;
+  font-size: 1rem;
+  font-weight: 550;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.ghost-btn.subtle:hover:not(:disabled) {
+  background: rgba(226, 232, 240, 0.7);
+  border-color: rgba(148, 163, 184, 1);
+  transform: translateY(-1px);
+}
+
+.ghost-btn.subtle:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+
+
+/* ====================================================
+   Responsive
+   ==================================================== */
+
+@media (max-width: 900px) {
+  .dash-main,
+  .dash-bottom {
+    grid-template-columns: 1fr;
+  }
+
+  .dash-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dash-user-card {
+    width: 100%;
+    min-width: unset;
+  }
+
+  /* FIXED — now inside correct media query */
+  .progress-numbers {
+    gap: 20px;
+  }
+
+  .progress-numbers > div {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dash-container {
+    padding: 28px 20px;
+  }
+
+  .dash-greeting-title {
+    font-size: 2.2rem;
+  }
+
+  /* Stack vertically on mobile */
+  .progress-numbers {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .progress-numbers > div {
+    width: 100%;
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  .progress-label {
+    font-size: 0.75rem;
+  }
+
+  .progress-value {
+    font-size: 1.15rem;
+  }
+}
+.success-btn {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+}
+.success-btn:hover {
+  opacity: 0.9;
+}
+/* ====================================================
+   AI GOAL SELECTOR – ORANGE GLASS STYLE
+   ==================================================== */
+
+.ai-goal-selector {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 221, 193, 0.85),
+    rgba(255, 240, 225, 0.9)
+  );
+  border: 1px solid rgba(255, 178, 130, 0.45);
+  box-shadow:
+    0 8px 22px rgba(255, 168, 112, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: aiSlideIn 0.35s ease;
+}
+
+/* Label */
+.ai-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #92400e;
+  letter-spacing: 0.3px;
+}
+
+/* Dropdown */
+.ai-select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(251, 146, 60, 0.45);
+  background: rgba(255, 255, 255, 0.95);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #7c2d12;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+/* Focus */
+.ai-select:focus {
+  outline: none;
+  border-color: #fb923c;
+  box-shadow: 0 0 0 4px rgba(251, 146, 60, 0.35);
+}
+
+/* Dropdown options */
+.ai-select option {
+  background: #fff;
+  color: #7c2d12;
+}
+
+/* Generate Button inside selector */
+.ai-goal-selector .primary-btn {
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 10px 22px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #fb923c, #f97316);
+  color: #fff;
+  border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(249, 115, 22, 0.45);
+  transition: 0.25s ease;
+}
+
+/* Hover */
+.ai-goal-selector .primary-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(249, 115, 22, 0.55);
+}
+
+/* Disabled */
+.ai-goal-selector .primary-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Slide animation */
+@keyframes aiSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .ai-goal-selector {
+    padding: 16px;
+  }
+
+  .ai-goal-selector .primary-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

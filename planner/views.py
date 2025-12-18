@@ -1,7 +1,6 @@
 """Clean and simple API views for the learning planner backend."""
 
 from datetime import date
-
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -189,6 +188,13 @@ import environ
 env=environ.Env()
 environ.Env.read_env()
 
+from datetime import date, timedelta
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+from .models import UserRegistration, Goal, DailyPlan
+from .serializers import DailyPlanSerializer
 
 @api_view(['POST'])
 def ai_generate_plan(request):
@@ -214,20 +220,6 @@ def ai_generate_plan(request):
     # Get title and topics from DB
     title = goal.title
     user_topic = goal.description
-
-    # Build the prompt
-    # prompt = f"""
-    # Generate a {days}-day study plan for learning {title}.
-    # Main focus topic: {user_topic}.
-
-    # Only output day-wise plan like:
-    # Day 1: topic
-    # Day 2: topic
-    # ...
-    # Day {days}: final task.
-
-    # No paragraphs or explanations. Just the plan.
-    # """
 
     prompt = f"""
 Generate a study plan for the goal: {title}.
@@ -276,6 +268,87 @@ Rules:
 
     except Exception as e:
         return Response({"detail": f"Unexpected error: {str(e)}"}, status=500)
+
+
+
+
+
+from datetime import timedelta
+import re
+
+
+@api_view(["POST"])
+def add_ai_plan_to_daily_schedule(request):
+    """
+    Takes AI generated plan and schedules it from today onwards.
+
+    Rules:
+    - Same goal (case-insensitive) → warn
+    - Different goal → allow
+    - Multiple goals per day allowed
+    """
+
+    user = get_logged_in_user(request)
+    if not user:
+        return Response({"detail": "Unauthorized"}, status=401)
+
+    goal_id = request.data.get("goal_id")
+    ai_text = request.data.get("plan")  # raw AI response text
+
+    if not goal_id or not ai_text:
+        return Response(
+            {"detail": "goal_id and plan are required"},
+            status=400
+        )
+
+    # Fetch goal
+    try:
+        goal = Goal.objects.get(id=goal_id, user=user)
+    except Goal.DoesNotExist:
+        return Response({"detail": "Goal not found"}, status=404)
+
+    # 🔒 Check if this goal is already scheduled
+    if DailyPlan.objects.filter(user=user, goal=goal).exists():
+        return Response(
+            {"detail": "This goal is already scheduled"},
+            status=409
+        )
+
+    """
+    Expected AI text format:
+    Day 1: topic
+    Day 2: topic
+    ...
+    """
+
+    today = date.today()
+    lines = ai_text.strip().splitlines()
+
+    day_counter = 0
+
+    for line in lines:
+        match = re.match(r"Day\s*(\d+)\s*:\s*(.+)", line)
+        if not match:
+            continue
+
+        day_counter += 1
+        topic = match.group(2)
+
+        DailyPlan.objects.create(
+            user=user,
+            goal=goal,
+            date=today + timedelta(days=day_counter - 1),
+            topics=topic,
+            planned_hours=1
+        )
+
+    return Response(
+        {
+            "message": "AI plan added to daily schedule",
+            "total_days": day_counter
+        },
+        status=201
+    )
 
 
 
@@ -370,8 +443,10 @@ def login_user(request):
         key="auth_token",
         value=token,
         httponly=True,
-        secure=True,      # MUST be True for HTTPS
-        samesite="None",  # MUST be None for cross-domain
+        secure=False,      # MUST be True for HTTPS
+        samesite="Lax",
+        path="/",
+        domain="localhost",  # MUST be None for cross-domain
         max_age=3*24 * 60 * 60
 )
 
@@ -384,7 +459,6 @@ def login_user(request):
 # 222
 import jwt
 from django.http import JsonResponse
-
 def get_logged_in_user(request):
     token = request.COOKIES.get("auth_token")
     if not token:

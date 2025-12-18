@@ -1,0 +1,168 @@
+/* src/pages/DailyPlanForm.css */
+
+/* ---------- Layout ---------- */
+.daily-root {
+  min-height: 100vh;
+  background-color: #b5ead7; /* Mint Green */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  animation: fadeIn 0.3s ease;
+}
+
+.daily-card {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  padding: 32px 28px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ---------- Headers ---------- */
+.daily-title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #374151;
+  text-align: center;
+}
+
+.daily-subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #6b7280;
+}
+
+/* ---------- Form ---------- */
+.daily-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.form-input,
+.form-textarea,
+.daily-form select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  transition: 0.2s ease;
+}
+
+.form-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Focus */
+.form-input:focus,
+.form-textarea:focus,
+.daily-form select:focus {
+  outline: none;
+  border-color: #aec6f7; /* Baby Blue */
+  box-shadow: 0 0 0 3px rgba(174, 198, 247, 0.45);
+  background-color: #ffffff;
+}
+
+/* Error state */
+.has-error {
+  border-color: #ef4444 !important;
+}
+
+.error-text {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #b91c1c;
+}
+
+.helper-note {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+/* Checkbox row */
+.checkbox-row {
+  margin-top: 4px;
+}
+
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------- Button ---------- */
+.daily-button {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 14px;
+  background-color: #ffd3b4; /* Peach CTA */
+  color: #374151;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-top: 4px;
+}
+
+.daily-button:hover {
+  background-color: #ffc39a;
+  transform: translateY(-1px);
+}
+
+.daily-button:active {
+  transform: translateY(0);
+}
+
+/* Fade-in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .daily-card {
+    padding: 24px 20px;
+  }
+
+  .daily-title {
+    font-size: 1.4rem;
+  }
+}
