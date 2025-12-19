@@ -339,7 +339,7 @@ def add_ai_plan_to_daily_schedule(request):
             goal=goal,
             date=today + timedelta(days=day_counter - 1),
             topics=topic,
-            planned_hours=1
+            planned_hours=5
         )
 
     return Response(
